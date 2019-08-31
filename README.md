@@ -1,2 +1,2 @@
 # bootSdk
-Run custom binaries in lxboot or uboot
+Custom binaries in lxboot or uboot (Proof of Concept)
