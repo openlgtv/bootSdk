@@ -55,6 +55,7 @@ function(add_binary)
 		get_filename_component(output_ext "${output}" EXT)
 		if(output_ext STREQUAL ".S")
 			set_property(SOURCE "${output}" PROPERTY LANGUAGE C)
+			set_property(SOURCE "${output}" PROPERTY COMPILE_DEFINITIONS __ASSEMBLY__)
 		endif()
 
 		get_filename_component(src_name "${src}" NAME)
@@ -81,6 +82,7 @@ function(add_binary)
 	set_target_properties(${BIN_TARGET} PROPERTIES COMPILE_FLAGS "${cflags_str}")
 	set_target_properties(${BIN_TARGET} PROPERTIES LINK_FLAGS "${ldflags_str}")
 	set_target_properties(${BIN_TARGET} PROPERTIES LINK_DEPENDS ${BIN_LDSCRIPT})
+	target_include_directories(${BIN_TARGET} PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}")
 
 	# objcopy target: creates .bin file
 	get_filename_component(outputBin "${BIN_TARGET}.bin" ABSOLUTE BASE_DIR "${CMAKE_CURRENT_BINARY_DIR}")
