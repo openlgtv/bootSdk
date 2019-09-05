@@ -73,7 +73,8 @@ function(add_binary)
 
 	message(STATUS "${BIN_TARGET} ${sources}")
 
-	set(cflags -fno-exceptions -nostartfiles -nostdlib -ffreestanding -fPIC -Os)
+	set(cflags -fno-exceptions -nostartfiles -nostdlib -ffreestanding -Os -no-pie -fno-plt -s -Wl,--build-id=none)
+	#set(cflags -fno-exceptions -nostartfiles -nostdlib -ffreestanding -Os -s -Wl,--build-id=none)
 	set(ldflags ${cflags} -T"${BIN_LDSCRIPT}")
 	
 	string (REPLACE ";" " " cflags_str "${cflags}")
@@ -89,6 +90,7 @@ function(add_binary)
 	add_custom_command(
 		OUTPUT "${outputBin}"
 		COMMAND ${CMAKE_OBJCOPY} -O binary $<TARGET_FILE:${BIN_TARGET}> "${outputBin}"
+		DEPENDS $<TARGET_FILE:${BIN_TARGET}>
 	)
 	add_custom_target(${BIN_TARGET}.bin ALL DEPENDS "${outputBin}")
 	add_dependencies(${BIN_TARGET}.bin ${BIN_TARGET})
@@ -105,7 +107,9 @@ function(add_binary)
 				-n "${BIN_TARGET}"
 				-a ${BIN_LOADADDR}
 				-e ${BIN_ENTRYPOINT}
-				-d ${outputBin} ${outputImage})
+				-d ${outputBin} ${outputImage}
+		DEPENDS ${outputBin}
+	)
 	
 	add_custom_target(${BIN_TARGET}.uimg ALL DEPENDS "${outputImage}")
 	add_dependencies(${BIN_TARGET}.uimg ${BIN_TARGET}.bin)
