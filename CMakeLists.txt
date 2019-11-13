@@ -116,3 +116,4 @@ function(add_binary)
 endfunction()
 
 add_subdirectory(lxboot)
+add_subdirectory(uboot-mstar)
