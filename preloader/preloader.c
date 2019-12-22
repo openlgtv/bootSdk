@@ -6,6 +6,7 @@
 #ifdef CONFIG_TARGET_BCM63138
 #include "bcm63138.h"
 #else
+#define board_init()
 #define puts(x)
 #define putchar(x)
 #endif
@@ -30,6 +31,8 @@ void ENTRY_FUNC start(void){
 	word_t *destPtr;
 	word_t numWords;
 	
+	board_init();
+
 	puts("Preloader v0.1 by Smx\r\n");
 	codePtr = loadArgs.code;
 	destPtr = loadArgs.loadAddr;
