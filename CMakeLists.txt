@@ -143,4 +143,4 @@ endfunction()
 
 add_subdirectory(lxboot)
 add_subdirectory(uboot-mstar)
-add_subdirectory(bcm-preloader)
+add_subdirectory(preloader)
